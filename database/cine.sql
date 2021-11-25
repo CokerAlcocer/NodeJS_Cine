@@ -1,5 +1,5 @@
 CREATE DATABASE cine;
-USE cine;
+--USE cine;
 
 CREATE TABLE categoria(
     id int AUTO_INCREMENT NOT NULL,
