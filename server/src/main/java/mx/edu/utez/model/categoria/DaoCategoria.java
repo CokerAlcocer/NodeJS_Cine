@@ -60,7 +60,29 @@ public class DaoCategoria {
 
         return c;
     }
+    
+    public Categoria findLast(){
+        Categoria c = null;
+        try {
+            con = DBConnection.getConnection();
+            query = "SELECT * FROM categoria WHERE id = (SELECT MAX(id) FROM categoria)";
+            stm = con.createStatement();
+            rs = stm.executeQuery(query);
 
+            if(rs.next()){
+                c = new Categoria();
+                c.setId(rs.getInt("id"));
+                c.setNombre(rs.getString("nombre"));
+            }
+        }catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }finally {
+            closeConnections();
+        }
+
+        return c;
+    }
+    
     public boolean saveCategoria(Categoria c, boolean isCreate){
         boolean state = false;
         try{
@@ -89,7 +111,7 @@ public class DaoCategoria {
         boolean state = false;
         try{
             con = DBConnection.getConnection();
-            query = "UPDATE pelicula SET categoria WHERE categoria = ?;";
+            query = "UPDATE pelicula SET categoria = 0 WHERE categoria = ?;";
             pstm = con.prepareStatement(query);
             pstm.setInt(1, id);
             state = pstm.executeUpdate() == 1;
