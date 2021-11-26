@@ -30,10 +30,9 @@ public class CategoriaController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes("application/x-www-form-urlencoded")
     public Categoria saveCategoria(MultivaluedMap<String, String> formParams){
-        int id = Integer.parseInt(formParams.get("id").get(0));
 
-        if(new DaoCategoria().saveCategoria(getParams(id, formParams), true)){
-            return new DaoCategoria().findById(id);
+        if(new DaoCategoria().saveCategoria(getParams(0, formParams), true)){
+            return new DaoCategoria().findLast();
         }else {
             return null;
         }
@@ -55,8 +54,7 @@ public class CategoriaController {
     @POST
     @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes("application/x-www-form-urlencoded")
-    public boolean deleteCustomer(@PathParam("id") int id) {
+    public boolean deleteCategoria(@PathParam("id") int id) {
         return new DaoCategoria().deleteCategoria(id);
     }
 
@@ -68,3 +66,4 @@ public class CategoriaController {
         return c;
     }
 }
+
